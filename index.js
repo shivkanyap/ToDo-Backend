@@ -3,6 +3,8 @@ const http = require('http');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
 const { sequelize } = require('./models/index');
+const helmet = require('helmet');
+const compression = require('compression');
 const routing = require('./controller/main');
 const app = express();
 
@@ -12,7 +14,8 @@ let Port = process.env.Port || 3000;
 // global middleware 
 app.use(cors())
 app.use(express.json())
-
+app.use(compression());
+app.use(helmet());
 //routes
 
 app.use('/api/v1',routing)
