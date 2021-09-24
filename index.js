@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
-const { sequelize } = require('./models/index');
+const mongodb = require('./config/config');
 const helmet = require('helmet');
 const compression = require('compression');
 const routing = require('./controller/main');
@@ -20,20 +20,12 @@ app.use(helmet());
 
 app.use('/api/v1',routing)
 
-//server creation
-http.createServer(app).listen(Port,()=>{
-    sequelize.authenticate()
-    .then(()=>{
-        console.log(`server started at ${Port}`);
-        console.log('Database conncted successfully')
-    })
-    .catch((err)=>console.log(err))
-    
-});
-
 // api
 
 app.get('/api/v1/test',(req,res)=>{
     res.status(200).json({status:"Backend is ok"});
 })
 
+app.listen(Port,()=>{
+    console.log('server started at'+" "+Port)
+})

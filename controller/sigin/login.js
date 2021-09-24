@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {user , sequelize } = require('../../models/index');
+const user = require('../../models/user');
 const bcrypt = require('bcrypt');
 class Login{
 
@@ -9,7 +9,7 @@ class Login{
             let { email, password } = req.body;
             if(email && password){
 
-                let user_info = await user.findOne({where:{email}});
+                let user_info = await user.findOne({email});
                 if(!user_info) return res.status(401).json({status:"fail",Error:"Email not found"});
                 else{
 

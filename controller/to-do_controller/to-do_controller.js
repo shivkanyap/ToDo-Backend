@@ -1,7 +1,7 @@
-const { sequelize,to_do} = require('../../models/index');
+const to_do= require('../../models/to_do');
 const jwt = require('jsonwebtoken');
-const e = require('express');
-const { title } = require('process');
+
+
 
 
 class TO_DO{
@@ -10,14 +10,15 @@ class TO_DO{
 
 async create(req,res){
         try{
-            let { title , description } = req.body;
+            let { title , body } = req.body;
             let { data } = req;
             if(data.role == "Admin" || data.role == "admin"){
-            if(title && description){
-                let to_do_create = await to_do.create({title,description});
+            if(title && body){
+                let to_do_create = new to_do({title,body});
+                await to_do_create.save();
                 return res.json({status:200,to_do_create});
             }
-            else return res.json({status:401,Error:"Please provide title and description"})
+            else return res.json({status:401,Error:"Please provide title and body"})
         }
         else return res.json({status:401,Error:"Unauthorized error"})
         }
@@ -33,7 +34,7 @@ async create(req,res){
 async getAll(req,res){
         try{
 
-            let data = await to_do.findAll();
+            let data = await to_do.find();
             if(data.length>0){
                 return res.json({status:200,total_item:data.length,data});
             }
@@ -51,7 +52,7 @@ async delete(req,res){
             let {data} = req;
             if(data.role == "Admin" || data.role == "admin"){
             if(id){
-                let delete_data = await to_do.destroy({where:{to_do_id:id}});
+                let delete_data = await to_do.findOneAndRemove({_id:id});
                 if(delete_data) return res.json({status:200,Info:"Item deleted successfully"})
                 else return res.json({status:401,Error:"Given item not found"});
             }
@@ -70,7 +71,7 @@ async getID(req,res){
 
             let {id} = req.params;
             if(id){
-                let getdata = await to_do.findOne({where:{to_do_id:id}});
+                let getdata = await to_do.findOne({_id:id});
                 if(getdata) return res.json({status:200,getdata});
                 else return res.json({status:401,Error:"No data found"}) 
             }
@@ -87,7 +88,7 @@ async update(req,res){
             let {id} = req.params;
             let { data  } = req;
             if(data.role == "Admin" || data.role == "admin"){
-                let info = await to_do.update({title:req.body.title,description:req.body.description},{where:{to_do_id:id},raw:true});
+                let info = await to_do.findOneAndUpdate({_id:id},{title:req.body.title,body:req.body.body},{upsert: true});
                 if(info){
                      return res.json({status:200,Info:" Item Updated successfully"}) 
                 }
@@ -108,9 +109,10 @@ async createClone(req,res){
             if(data.role == "Admin" || data.role == "admin"){
 
                 if(id){
-                    let to_do_item = await to_do.findOne({where:{to_do_id:id}});
+                    let to_do_item = await to_do.findOne({_id:id});
                     if(to_do_item){
-                        let new_item = await to_do.create({title:to_do_item.title,description:to_do_item.description});
+                        let new_item = new to_do({title:to_do_item.title,body:to_do_item.body});
+                        await new_item.save();
                         return res.json({status:200,new_item});
                     }
                     else return res.send({status:401,Error:'No item found'})

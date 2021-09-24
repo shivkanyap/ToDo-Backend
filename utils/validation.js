@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { user,sequelize } = require('../models/index');
+const user = require('../models/user');
 
 const RouteGuard = async(req,res,next)=>{
 try{
@@ -13,7 +13,7 @@ try{
             .status(400)
             .json({status: 400, message: "Unauthorized Access"});
         else {
-         let info=await user.findOne({where:{token},raw:true,attributes:['firstName','lastName','email','role','status']});
+         let info=await user.findOne({token});
          if(info!==null){
           req.data = info
           next();

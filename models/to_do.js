@@ -1,30 +1,15 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class to_do extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  };
-  to_do.init({
-    to_do_id: {
-      type: DataTypes.UUID,
-      defaultValue:DataTypes.UUIDV4,
-      allowNull:false,
-      primaryKey:true
-    },
-    title: DataTypes.STRING,
-    description: DataTypes.STRING(1234)
-  }, {
-    sequelize,
-    modelName: 'to_do',
-  });
-  return to_do;
-};
+const mongoose = require('mongoose');
+
+let to_do_app = new mongoose.Schema({
+  title:{
+    type:String,
+    default:""
+  },
+  body:{
+    type:String,
+    default:""
+  }
+})
+
+let to_do = new mongoose.model('to_do_app',to_do_app);
+module.exports = to_do;
