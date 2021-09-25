@@ -22,9 +22,9 @@ app.use('/api/v1',routing)
 
 // api
 
-app.get('/api/v1/test',(req,res)=>{
-    res.status(200).json({status:"Backend is ok"});
-})
+// app.get('/api/v1/test',(req,res)=>{
+//     res.status(200).json({status:"Backend is ok"});
+// })
 
 app.listen(Port,()=>{
     console.log('server started at'+" "+Port)

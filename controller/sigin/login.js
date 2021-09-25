@@ -19,7 +19,7 @@ class Login{
                         if(token){
                             user_info.token = token;
                             await user_info.save();
-                            res.status(200).send({status:"success",Info:"Login successfully"});
+                            res.status(200).send({status:"success",Info:"Login successfully",token});
                         }
                         else return res.status(401).send({Error:"Token not created successfully"})
                     }

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://not7that:not7that@cluster0.k4qor.mongodb.net/to_do_app?retryWrites=true&w=majority", {useUnifiedTopology: true, useNewUrlParser: true},(err)=>{
+mongoose.connect("mongodb+srv://kanya123:kanya123@devconnector.sytzh.mongodb.net/to_do?retryWrites=true&w=majority", {useUnifiedTopology: true, useNewUrlParser: true},(err)=>{
     if(err){
         console.log(err);
     }

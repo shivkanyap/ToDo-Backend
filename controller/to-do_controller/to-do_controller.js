@@ -48,7 +48,8 @@ async getAll(req,res){
 
 async delete(req,res){
         try{
-            let {id} = req.params;
+            let {id} = req.query;
+            console.log(id,' in delete id ')
             let {data} = req;
             if(data.role == "Admin" || data.role == "admin"){
             if(id){
@@ -69,7 +70,8 @@ async delete(req,res){
 async getID(req,res){
         try{
 
-            let {id} = req.params;
+            let {id} = req.query;
+            console.log(id)
             if(id){
                 let getdata = await to_do.findOne({_id:id});
                 if(getdata) return res.json({status:200,getdata});
