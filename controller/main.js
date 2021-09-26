@@ -26,5 +26,5 @@ router.route('/getByid').get(RouteGuard,to_do_app.getID);
 router.route('/delete/:id').delete(RouteGuard,to_do_app.delete);
 router.route('/create/:id').post(RouteGuard,to_do_app.createClone);
 router.route('/put/:id').put(RouteGuard,to_do_app.update);
-
+router.route('/logout').post(RouteGuard,to_do_app.logout);
 module.exports = router;

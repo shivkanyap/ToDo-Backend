@@ -128,6 +128,17 @@ async createClone(req,res){
             res.json({status:401,Error:err})
         }
     }
+    async logout(req,res){
+        try{
+            let {data} = req;
+            data.token = " ";
+            await data.save();
+            res.json({status:"success",Info:"you logout successfully"})
+        }
+        catch(err){
+            res.json({status:"Fail",Error:err})
+        }
+    }
 
 }
 
